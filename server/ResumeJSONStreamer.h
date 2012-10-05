@@ -1,5 +1,5 @@
-#ifndef RESUMEJSONHTTPENTITYSTREAMER_H
-#define RESUMEJSONHTTPENTITYSTREAMER_H
+#ifndef ResumeJSONStreamer_H
+#define ResumeJSONStreamer_H
 
 #include <C2SHttpEntityStreamerBase.h>
 #include <C2SHttpMediaType.h>
@@ -8,15 +8,15 @@
 #include <string>
 
 template<class Type>
-class ResumeJSONHttpEntityStreamer : public c2s::C2SHttpEntityStreamerBase<Type>
+class ResumeJSONStreamer : public c2s::C2SHttpEntityStreamerBase<Type>
 {
     public:
 
-        ResumeJSONHttpEntityStreamer()
+        ResumeJSONStreamer()
             : c2s::C2SHttpEntityStreamerBase<Type>(c2s::C2SHttpMediaType::application__json+"; charset=utf-8")
         {}
 
-        c2s::C2SHttpEntity *entity( const Type &data ) const
+        c2s::C2SHttpEntity * entity( const Type &data ) const
         {
             std::string sJSON = c2s::util::toString(data);
             char *cdata = new char[ sJSON.size() ];
@@ -24,9 +24,9 @@ class ResumeJSONHttpEntityStreamer : public c2s::C2SHttpEntityStreamerBase<Type>
             return new c2s::C2SHttpEntity( cdata , sJSON.size() , true );
         }
 
-        ResumeJSONHttpEntityStreamer(const ResumeJSONHttpEntityStreamer &) = delete;
+        ResumeJSONStreamer(const ResumeJSONStreamer &) = delete;
 
-        ResumeJSONHttpEntityStreamer &operator=(const ResumeJSONHttpEntityStreamer &) = delete;
+        ResumeJSONStreamer &operator=(const ResumeJSONStreamer &) = delete;
 };
 
-#endif // RESUMEJSONHTTPENTITYSTREAMER_H
+#endif // ResumeJSONStreamer_H

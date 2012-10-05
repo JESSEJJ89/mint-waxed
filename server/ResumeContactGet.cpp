@@ -1,15 +1,14 @@
-#include <ResumeJSONHttpEntityStreamer.h>
-#include <ResumeRestMethodPrototypeContact.h>
+#include <ResumeJSONStreamer.h>
+#include <ResumeContactGet.h>
 
 #include <string>
 #include <sstream>
 #include <map>
 
-ResumeRestMethodPrototypeContact::ResumeRestMethodPrototypeContact()
-    : c2s::C2SRestMethodPrototypeGET<const char*>("contact"),
-      pLogger(new c2s::io::DateTimeLogger("contact"))
+ResumeContactGet::ResumeContactGet()
+    : c2s::C2SRestMethodPrototypeGET<const char*>("contact")
 {
-    installEntityStreamer(new ResumeJSONHttpEntityStreamer<const char*>());
+    installEntityStreamer(new ResumeJSONStreamer<const char*>());
 
     addQueryParameter("callback", &callbackParameter, "");
 
@@ -22,14 +21,7 @@ ResumeRestMethodPrototypeContact::ResumeRestMethodPrototypeContact()
     data["zip"] = "98110";
 }
 
-
-ResumeRestMethodPrototypeContact::~ResumeRestMethodPrototypeContact()
-{
-    delete pLogger;
-}
-
-
-c2s::C2SHttpResponse * ResumeRestMethodPrototypeContact::process()
+c2s::C2SHttpResponse * ResumeContactGet::process()
 {            
     std::stringstream ss;
 
@@ -48,13 +40,11 @@ c2s::C2SHttpResponse * ResumeRestMethodPrototypeContact::process()
         contactJson = callbackParameter;
     }
 
-    pLogger->info(contactJson);
-
     return buildResponse(c2s::OK, contactJson.c_str());
 }
 
 
-ResumeRestMethodPrototypeContact * ResumeRestMethodPrototypeContact::clone() const
+ResumeContactGet * ResumeContactGet::clone() const
 {
-    return new ResumeRestMethodPrototypeContact();
+    return new ResumeContactGet();
 }

@@ -12,7 +12,9 @@ INCLUDEPATH += \
     /home/chas/c2serve/include/c2s/c2s-util/io \
     /home/chas/c2serve/include/c2s/c2s-core \
     /home/chas/c2serve/include/c2s/c2s-http \
-    /home/chas/c2serve/include/c2s/c2s-rest
+    /home/chas/c2serve/include/c2s/c2s-rest \
+    /usr/include/mongo
+
 
 LIBS += \
     /home/chas/c2serve/lib/libc2s_rest.a \
@@ -21,16 +23,22 @@ LIBS += \
     /home/chas/c2serve/lib/libc2s_core.a \
     /home/chas/c2serve/lib/libc2s_socket.a \
     /home/chas/c2serve/lib/libc2s_log.a \
-    -pthread
+    -pthread \
+    -lboost_system \
+    -lmongoclient
 
 SOURCES +=  \
-    server/ResumeRestMethodPrototypeContact.cpp \
+    server/ResumeContactGet.cpp \
+    server/ResumeSummaryGet.cpp \
+    server/ResumeExperienceGet.cpp \
     server/ResumeServerMain.cpp
-#    test/test.cpp
-
-
 
 HEADERS += \
-    server/ResumeJSONHttpEntityStreamer.h \
-    server/ResumeRestMethodPrototypeContact.h
+    server/ResumeJSONStreamer.h \
+    server/ResumeContactGet.h \
+    server/ResumeSummaryGet.h \
+    server/ResumeExperienceGet.h
+
+OTHER_FILES += \
+    resume.js
 

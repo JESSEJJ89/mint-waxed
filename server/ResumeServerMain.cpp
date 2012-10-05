@@ -1,25 +1,28 @@
+
+#include <C2SSettings.h>
+#include <C2SRestResourcePrototype.h>
+#include <C2SHttpServer.h>
+
+#include <ResumeContactGet.h>
+#include <ResumeSummaryGet.h>
+
 #include <string>
-
-#include "ResumeRestMethodPrototypeContact.h"
-
-#include "C2SSettings.h"
-#include "C2SRestResourcePrototype.h"
-#include "C2SHttpServer.h"
-
 
 int main(int arg, char** argv)
 {
     c2s::C2SSettings serverSettings;
     serverSettings.iPort = 8080;
     c2s::C2SHttpServer httpServer(serverSettings);
-    const std::string contextName = "resume";
 
-    // create contact endpoint
-    c2s::C2SRestResourcePrototype *pResourceContact = c2s::C2SRestResourcePrototype::createRestResourceWithContextRoot(contextName);
+    // memory managed by C2SHttpServer::registerResourcePrototype
+    c2s::C2SRestResourcePrototype * pRestResources = c2s::C2SRestResourcePrototype::createRestResourceWithContextRoot("resume");
 
-    pResourceContact->registerMethodPrototype(new ResumeRestMethodPrototypeContact());
+    // memory managed by C2SRestResourcePrototype::registerMethodPrototype
+    pRestResources->registerMethodPrototype(new ResumeContactGet());
+    pRestResources->registerMethodPrototype(new ResumeSummaryGet());
 
-    httpServer.registerResourcePrototype(pResourceContact);
+    httpServer.registerResourcePrototype(pRestResources);
+
     httpServer.run();
 
     return 0;

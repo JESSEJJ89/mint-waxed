@@ -2,15 +2,15 @@
 #define RESUMECONTACTGET_H
 
 #include <C2SRestMethodPrototypeGET.h>
-
-class string;
-class map;
+#include <string>
 
 class ResumeContactGet : public c2s::C2SRestMethodPrototypeGET<const char*>
 {
+        std::string jsonpCallback;
+
     public:
 
-        ResumeContactGet();
+        explicit ResumeContactGet();
 
         virtual ~ResumeContactGet() {}
 
@@ -21,11 +21,6 @@ class ResumeContactGet : public c2s::C2SRestMethodPrototypeGET<const char*>
         ResumeContactGet(const ResumeContactGet & ) = delete;
 
         ResumeContactGet & operator=(const ResumeContactGet & ) = delete;
-
-    private:
-
-        std::map<std::string, std::string> data;
-        std::string callbackParameter;
 };
 
 #endif // RESUMECONTACTGET_H

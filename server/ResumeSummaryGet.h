@@ -2,14 +2,15 @@
 #define RESUMESUMMARYGET_H
 
 #include <C2SRestMethodPrototypeGET.h>
-
-class string;
-class map;
+#include <string>
 
 class ResumeSummaryGet : public c2s::C2SRestMethodPrototypeGET<const char*>
 {
+        std::string jsonpCallback;
+
     public:
-        ResumeSummaryGet();
+
+        explicit ResumeSummaryGet();
 
         virtual ~ResumeSummaryGet() {}
 
@@ -20,12 +21,6 @@ class ResumeSummaryGet : public c2s::C2SRestMethodPrototypeGET<const char*>
         ResumeSummaryGet(const ResumeSummaryGet &) = delete;
 
         ResumeSummaryGet & operator=(const ResumeSummaryGet & ) = delete;
-
-    private:
-
-        std::map<std::string, std::string> data;
-        std::string callbackParameter;
-
 };
 
 #endif // RESUMESUMMARYGET_H

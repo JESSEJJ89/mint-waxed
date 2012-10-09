@@ -1,0 +1,137 @@
+<html>
+<head>
+
+<script src="jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="qunit-1.10.0.js" type="text/javascript"></script>
+<link rel="stylesheet" href="qunit-1.10.0.css" />
+
+<script type="text/javascript">
+
+window.onerror = function(error, url, line)
+{
+    test('Caught window.onerror', function(){ok(false,error + '. ' + 'Line : ' + line + ' ' + url)});
+}
+
+function failOnSuccess(data, textStatus, jqXHR)
+{
+    test('Unexpected getDataFromEndpoint success', function()
+    {
+        ok(false, 'data: '+ (data ? data.toString() : 'no data, endpoint must\'ve failed'));
+        ok(false, 'textStatus: ' + (textStatus ? textStatus : 'no textStatus, endpoint must\'ve failed'));
+    });
+}
+
+function failOnError(jqXHR, textStatus, errorThrown)
+{
+    test('Unexpected getDataFromEndpoint error', function()
+    {
+        ok(false, 'textStatus: ' + (textStatus ? textStatus : 'no textStatus, endpoint must\'ve failed'));
+        ok(false, 'errorThrown: ' + (errorThrown ? errorThrown : 'no errorThrown, endpoint must\'ve failed'));
+    });
+}
+
+function getDataFromEndpoint(endpoint, onSuccess, onError)
+{
+    /*
+        JSONP works by inserting a script tag into the DOM, rather than by XMLHTTPRequest.
+        script tags have no onerror property, so you can't test for success by conventional methods.
+        The only way to do it is via a timeout.
+    */
+
+    var jsonpTimeoutId = setTimeout(onError, 3000); // catch jsonp failures
+
+    // closure containing properly scoped instance of timeoutId
+    function callService()
+    {
+        $.ajax({ url: 'http://localhost:8080/resume/'+endpoint,
+                dataType: 'jsonp json',
+                success: function(a,b,c)
+                          {
+                            clearTimeout(jsonpTimeoutId);
+                            onSuccess(a,b,c);
+                          },
+                error: function(a,c,b)
+                        {
+                            clearTimeout(jsonpTimeoutId);
+                            onError(a,b,c);
+                        }
+               });
+     };
+
+    callService();
+}
+
+</script>
+</head>
+<body>
+
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script type="text/javascript">
+
+    getDataFromEndpoint('contact', function(json)
+                                    {
+                                        test('get contact', function()
+                                        {
+                                            equal(json.isError, null, 'is not error');
+                                            equal(json.name, 'Charles Fordyce', 'name matches');
+                                        });
+                                    },
+                        failOnError);
+
+
+    getDataFromEndpoint('summary', function(json)
+                                    {
+                                        test('get summary', function()
+                                        {
+                                            equal(json.isError, null, 'is not error');
+                                            equal(json.objective, 'Software Developer', 'objective matches');
+                                        });
+                                    },
+                        failOnError);
+
+    getDataFromEndpoint('companies', function(json)
+                                    { console.warn(json);
+                                        test('get companies', function()
+                                        {
+                                            equal(json.isError, null, 'is not error');
+                                            equal(json.companies.length, 2, 'company list length is 2');
+                                        });
+                                    },
+                        failOnError);
+
+    getDataFromEndpoint('roles', function(json)
+                                    {
+                                        test('get roles', function()
+                                        {
+                                            equal(json.isError, null, 'is not error');
+                                            equal(json.roles.length, 4, 'roles list length is 4');
+                                        });
+                                    },
+                        failOnError);
+
+    getDataFromEndpoint('education', function(json)
+                                    {
+                                        test('get education', function()
+                                        {
+                                            equal(json.isError, null, 'is not error');
+                                            equal(json.education.length, 5, 'education list length is 5');
+                                        });
+                                    },
+                        failOnError);
+
+    getDataFromEndpoint('skills', function(json)
+                                    {
+                                        test('get skills', function()
+                                        {
+                                            equal(json.isError, null, 'is not error');
+                                            equal(json['Operating Systems'], 'Linux, UNIX, OSX and Windows', 'operating systems match');
+                                        });
+                                    },
+                        failOnError);
+
+</script>
+
+</body>
+</html>

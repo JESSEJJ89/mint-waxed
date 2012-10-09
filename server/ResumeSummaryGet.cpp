@@ -1,43 +1,46 @@
 #include <ResumeSummaryGet.h>
 #include <ResumeJSONStreamer.h>
+#include <client/dbclient.h>
+#include <DateTimeLogger.h>
+
 
 ResumeSummaryGet::ResumeSummaryGet()
     : c2s::C2SRestMethodPrototypeGET<const char*>("summary")
 {
     installEntityStreamer(new ResumeJSONStreamer<const char*>());
 
-    addQueryParameter("callback", &callbackParameter, "");
-
-    std::stringstream ss;
-    ss <<  "Innovative software development and integration professional adept at " <<
-           "designing, building and testing software applications, hiring and managing testing " <<
-           "teams and helping deliver accurate, customer-focused products.  Practiced at developing, " <<
-           "debugging and testing tiered applications; focused on products written in C++, Java, Perl.  " <<
-           "Strong Agile experience and certified Scrum Master.  Recent projects include management and " <<
-           "contributing work on functional, integration and load testing enterprise-scale Java SOA and " <<
-           "RESTful web services and multimedia web applications.";
-
-    data["summary"] = ss.str();
-    data["objective"] = "Software Engineer";
+    addQueryParameter("callback", &jsonpCallback, "");
 }
 
 c2s::C2SHttpResponse * ResumeSummaryGet::process()
 {
-    std::stringstream ss;
+    c2s::io::DateTimeLogger log("summary");
+    mongo::DBClientConnection mongo;
+    mongo::BSONObj summary;
 
-    ss << "{";
-
-    for (auto field : data)
-        ss << "\"" << field.first << "\":\"" << field.second << "\",";
-
-    std::string summaryJson = ss.str();
-
-    summaryJson.replace(summaryJson.size()-1, (size_t) 1, "}");
-
-    if (callbackParameter.size())
+    try
     {
-        callbackParameter += "(" + summaryJson + ");";
-        summaryJson = callbackParameter;
+        mongo.connect("localhost");
+        summary = mongo.findOne("test.resume.summaries", mongo::Query());
+    }
+    catch(mongo::ConnectException ex)
+    {
+        log.error(std::string("Connection Exception: ") + ex.what());
+        summary = BSON("DB Connection Failed." << ex.toString() << "isError" << true);
+    }
+    catch(mongo::DBException ex)
+    {
+        log.error(std::string("Database Exception: ") + ex.what());
+        log.error(mongo.getLastError());
+        summary = BSON("DB Query Failed." << ex.toString()  << "isError" << true);
+    }
+
+    std::string summaryJson = summary.jsonString();
+
+    if (jsonpCallback.size())
+    {
+        jsonpCallback += "(" + summaryJson + ");";
+        summaryJson = jsonpCallback;
     }
 
     return buildResponse(c2s::OK, summaryJson.c_str());

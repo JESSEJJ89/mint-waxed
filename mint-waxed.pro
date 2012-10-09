@@ -15,7 +15,6 @@ INCLUDEPATH += \
     /home/chas/c2serve/include/c2s/c2s-rest \
     /usr/include/mongo
 
-
 LIBS += \
     /home/chas/c2serve/lib/libc2s_rest.a \
     /home/chas/c2serve/lib/libc2s_http.a \
@@ -27,18 +26,25 @@ LIBS += \
     -lboost_system \
     -lmongoclient
 
-SOURCES +=  \
+SOURCES += \
     server/ResumeContactGet.cpp \
     server/ResumeSummaryGet.cpp \
-    server/ResumeExperienceGet.cpp \
-    server/ResumeServerMain.cpp
+    server/ResumeCompaniesGet.cpp \
+    server/ResumeRolesGet.cpp \
+    server/ResumeServerMain.cpp \
+    server/ResumeEducationGet.cpp \
+    server/ResumeSkillsGet.cpp
 
 HEADERS += \
     server/ResumeJSONStreamer.h \
     server/ResumeContactGet.h \
     server/ResumeSummaryGet.h \
-    server/ResumeExperienceGet.h
+    server/ResumeCompaniesGet.h \
+    server/ResumeRolesGet.h \
+    server/ResumeEducationGet.h \
+    server/ResumeSkillsGet.h
 
 OTHER_FILES += \
-    resume.js
+    resume.js \
+    test/testResumeService.html
 

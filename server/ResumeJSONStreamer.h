@@ -25,7 +25,6 @@ class ResumeJSONStreamer : public c2s::C2SHttpEntityStreamerBase<Type>
         }
 
         ResumeJSONStreamer(const ResumeJSONStreamer &) = delete;
-
         ResumeJSONStreamer &operator=(const ResumeJSONStreamer &) = delete;
 };
 

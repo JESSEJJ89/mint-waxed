@@ -1,10 +1,13 @@
-
 #include <C2SSettings.h>
 #include <C2SRestResourcePrototype.h>
 #include <C2SHttpServer.h>
 
 #include <ResumeContactGet.h>
 #include <ResumeSummaryGet.h>
+#include <ResumeCompaniesGet.h>
+#include <ResumeRolesGet.h>
+#include <ResumeEducationGet.h>
+#include <ResumeSkillsGet.h>
 
 #include <string>
 
@@ -20,6 +23,10 @@ int main(int arg, char** argv)
     // memory managed by C2SRestResourcePrototype::registerMethodPrototype
     pRestResources->registerMethodPrototype(new ResumeContactGet());
     pRestResources->registerMethodPrototype(new ResumeSummaryGet());
+    pRestResources->registerMethodPrototype(new ResumeCompaniesGet());
+    pRestResources->registerMethodPrototype(new ResumeRolesGet());
+    pRestResources->registerMethodPrototype(new ResumeEducationGet());
+    pRestResources->registerMethodPrototype(new ResumeSkillsGet());
 
     httpServer.registerResourcePrototype(pRestResources);
 

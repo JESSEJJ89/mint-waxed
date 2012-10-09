@@ -30,7 +30,7 @@ REST IMPLEMENTATION
 This project implements a REST web service which serves my resume information via endpoints.  The web service was built using the simple and powerful [C2Serve framework.](http://www.c2serve.eu/c2s-htdocs/overview.html).
 I am not affiliated with C2Serve in any way, and discovered it via a link in [Wikipedia](http://en.wikipedia.org/wiki/List_of_web_service_frameworks) at the outset of this project.
 
-All endpoints deliver JSON data.  The base URL is http://<server>:8080/resume/ and the endpoints are:
+All endpoints deliver JSON data, with a CORS header.  The base URL is http://<server>:8080/resume/ and the endpoints are:
 - *contact* - my contact information,
 - *summary* - a short description of my experience,
 - *companies* - a list of the companies where I've held professional positions,
@@ -59,4 +59,4 @@ Acknowledgements
 
 Thank you to the kind folks at C2Serve, MongoDB, QT, JQuery, QUnit, GitHub and Fedora for all their hard work on these valuable open-source products.
 Big ups to Johnson and Johnson for making the best damn [dental floss](http://www.amazon.com/dp/B001E96PA0/) on the market!
-Additional thanks go to SEOMOZ for suggesting this project, it was a lot of fun!
+Additional thanks go to SEOmoz for suggesting this project, it was a lot of fun!

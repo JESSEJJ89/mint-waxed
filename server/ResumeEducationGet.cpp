@@ -43,7 +43,9 @@ c2s::C2SHttpResponse * ResumeEducationGet::process()
         educationJson = jsonpCallback;
     }
 
-    return buildResponse(c2s::OK, educationJson.c_str());
+    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, educationJson.c_str());
+    pResponse->header().Fields.set("Access-Control-Allow-Origin", "*");
+    return pResponse;
 }
 
 

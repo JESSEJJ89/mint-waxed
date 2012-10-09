@@ -42,7 +42,9 @@ c2s::C2SHttpResponse * ResumeSkillsGet::process()
         skillsJson = jsonpCallback;
     }
 
-    return buildResponse(c2s::OK, skillsJson.c_str());
+    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, skillsJson.c_str());
+    pResponse->header().Fields.set("Access-Control-Allow-Origin", "*");
+    return pResponse;
 }
 
 ResumeSkillsGet * ResumeSkillsGet::clone() const

@@ -30,6 +30,9 @@ function failOnError(endpoint, jqXHR, textStatus, errorThrown)
     });
 }
 
+var hostname = $('<a>').prop('href', window.location).prop('hostname');
+var baseUrl = 'http://'+hostname+':8080/resume/';
+
 function getDataFromEndpoint(endpoint, onSuccess, onError)
 {
     /*
@@ -43,8 +46,8 @@ function getDataFromEndpoint(endpoint, onSuccess, onError)
     // closure containing properly scoped instance of timeoutId
     function callService()
     {
-        $.ajax({ url: 'http://localhost:8080/resume/'+endpoint,
-                dataType: 'companiesp json',
+        $.ajax({ url: baseUrl+endpoint,
+                dataType: 'jsonp json',
                 success: function(a,b,c)
                           {
                             clearTimeout(jsonpTimeoutId);
@@ -70,10 +73,11 @@ function getDataFromEndpoint(endpoint, onSuccess, onError)
 
 <script type="text/javascript">
 
-    getDataFromEndpoint('contact', function(companies)
+    getDataFromEndpoint('contact', function(endpoint,json)
                                     {
                                         test('get contact', function()
                                         {
+                                            equal(endpoint, 'contact', 'endpoints match');
                                             equal(json.isError, null, 'is not error');
                                             equal(json.name, 'Charles Fordyce', 'name matches');
                                         });
@@ -81,50 +85,55 @@ function getDataFromEndpoint(endpoint, onSuccess, onError)
                         failOnError);
 
 
-    getDataFromEndpoint('summary', function(json)
+    getDataFromEndpoint('summary', function(endpoint,json)
                                     {
                                         test('get summary', function()
                                         {
+                                            equal(endpoint, 'summary', 'endpoints match');
                                             equal(json.isError, null, 'is not error');
                                             equal(json.objective, 'Software Developer', 'objective matches');
                                         });
                                     },
                         failOnError);
 
-    getDataFromEndpoint('companies', function(json)
-                                    { console.warn(json);
+    getDataFromEndpoint('companies', function(endpoint,json)
+                                    {
                                         test('get companies', function()
                                         {
+                                            equal(endpoint, 'companies', 'endpoints match');
                                             equal(json.isError, null, 'is not error');
                                             equal(json.companies.length, 2, 'company list length is 2');
                                         });
                                     },
                         failOnError);
 
-    getDataFromEndpoint('roles', function(json)
+    getDataFromEndpoint('roles', function(endpoint,json)
                                     {
                                         test('get roles', function()
                                         {
+                                            equal(endpoint, 'roles', 'endpoints match');
                                             equal(json.isError, null, 'is not error');
                                             equal(json.roles.length, 4, 'roles list length is 4');
                                         });
                                     },
                         failOnError);
 
-    getDataFromEndpoint('education', function(json)
+    getDataFromEndpoint('education', function(endpoint,json)
                                     {
                                         test('get education', function()
                                         {
+                                            equal(endpoint, 'education', 'endpoints match');
                                             equal(json.isError, null, 'is not error');
                                             equal(json.education.length, 5, 'education list length is 5');
                                         });
                                     },
                         failOnError);
 
-    getDataFromEndpoint('skills', function(json)
+    getDataFromEndpoint('skills', function(endpoint,json)
                                     {
                                         test('get skills', function()
                                         {
+                                            equal(endpoint, 'skills', 'endpoints match');
                                             equal(json.isError, null, 'is not error');
                                             equal(json['Operating Systems'], 'Linux, UNIX, OSX and Windows', 'operating systems match');
                                         });

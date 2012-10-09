@@ -1,9 +1,9 @@
 <html>
 <head>
 
-<script src="jquery-1.8.2.min.js" type="text/javascript"></script>
-<script src="qunit-1.10.0.js" type="text/javascript"></script>
-<link rel="stylesheet" href="qunit-1.10.0.css" />
+<script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/qunit/qunit-1.10.0.js" type="text/javascript"></script>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.10.0.css" />
 
 <script type="text/javascript">
 
@@ -12,18 +12,18 @@ window.onerror = function(error, url, line)
     test('Caught window.onerror', function(){ok(false,error + '. ' + 'Line : ' + line + ' ' + url)});
 }
 
-function failOnSuccess(data, textStatus, jqXHR)
+function failOnSuccess(endpoint, data, textStatus, jqXHR)
 {
-    test('Unexpected getDataFromEndpoint success', function()
+    test('Unexpected success: getDataFromEndpoint( ' + endpoint + ' )', function()
     {
         ok(false, 'data: '+ (data ? data.toString() : 'no data, endpoint must\'ve failed'));
         ok(false, 'textStatus: ' + (textStatus ? textStatus : 'no textStatus, endpoint must\'ve failed'));
     });
 }
 
-function failOnError(jqXHR, textStatus, errorThrown)
+function failOnError(endpoint, jqXHR, textStatus, errorThrown)
 {
-    test('Unexpected getDataFromEndpoint error', function()
+    test('Unexpected error: getDataFromEndpoint( ' + endpoint + ' )', function()
     {
         ok(false, 'textStatus: ' + (textStatus ? textStatus : 'no textStatus, endpoint must\'ve failed'));
         ok(false, 'errorThrown: ' + (errorThrown ? errorThrown : 'no errorThrown, endpoint must\'ve failed'));
@@ -44,16 +44,16 @@ function getDataFromEndpoint(endpoint, onSuccess, onError)
     function callService()
     {
         $.ajax({ url: 'http://localhost:8080/resume/'+endpoint,
-                dataType: 'jsonp json',
+                dataType: 'companiesp json',
                 success: function(a,b,c)
                           {
                             clearTimeout(jsonpTimeoutId);
-                            onSuccess(a,b,c);
+                            onSuccess(endpoint,a,b,c);
                           },
-                error: function(a,c,b)
+                error: function(a,b,c)
                         {
                             clearTimeout(jsonpTimeoutId);
-                            onError(a,b,c);
+                            onError(endpoint,a,b,c);
                         }
                });
      };
@@ -70,7 +70,7 @@ function getDataFromEndpoint(endpoint, onSuccess, onError)
 
 <script type="text/javascript">
 
-    getDataFromEndpoint('contact', function(json)
+    getDataFromEndpoint('contact', function(companies)
                                     {
                                         test('get contact', function()
                                         {

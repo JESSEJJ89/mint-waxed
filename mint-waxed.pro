@@ -46,5 +46,6 @@ HEADERS += \
 
 OTHER_FILES += \
     resume.js \
-    test/testResumeService.html
+    test/testResumeService.html \
+    FordyceResume.html
 

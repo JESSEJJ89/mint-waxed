@@ -1,5 +1,5 @@
-#ifndef ResumeJSONStreamer_H
-#define ResumeJSONStreamer_H
+#ifndef RESUMEJSONSTREAMER_H
+#define RESUMEJSONSTREAMER_H
 
 #include <C2SHttpEntityStreamerBase.h>
 #include <C2SHttpMediaType.h>
@@ -12,7 +12,7 @@ class ResumeJSONStreamer : public c2s::C2SHttpEntityStreamerBase<Type>
 {
     public:
 
-        ResumeJSONStreamer()
+        explicit ResumeJSONStreamer()
             : c2s::C2SHttpEntityStreamerBase<Type>(c2s::C2SHttpMediaType::application__json+"; charset=utf-8")
         {}
 
@@ -28,4 +28,4 @@ class ResumeJSONStreamer : public c2s::C2SHttpEntityStreamerBase<Type>
         ResumeJSONStreamer &operator=(const ResumeJSONStreamer &) = delete;
 };
 
-#endif // ResumeJSONStreamer_H
+#endif // RESUMEJSONSTREAMER_H

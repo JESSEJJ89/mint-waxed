@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Charles Fordyce Resume</title>
+<!--    <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>-->
+    <script src="jquery-1.8.2.min.js" type="text/javascript"></script>-->
+    <script type="text/javascript">
+        var hostname = $('<a>').prop('href', window.location).prop('hostname');
+        var baseUrl = 'http://'+hostname+':8080/resume/';
+
+        function getDataFromEndpoint(endpoint, callback)
+        {
+            $.ajax({ url: baseUrl+endpoint,
+                dataType: 'jsonp json',
+                success: callback,
+                error: function(xhr,status,error) {callback({'isError':true,'error':error})}
+            });
+        }
+
+        function toggleImage()
+        {
+            if ('none' === $(document.body).css('background-image'))
+            {
+// TODO add IE Alpha
+                $(document.body).css({'background-image':'url("chas-mint-waxed.png")', 'opacity':0});
+            }
+            else
+            {
+                $(document.body).css({'background-image':'none','opacity':1});
+                $(document.body).click(function(){return false;});
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div id="contact">
+    <script type="text/javascript">
+        getDataFromEndpoint('contact',function(contact)
+        {
+            $('#contact').append('<p style="text-align: center;font-size: 2em;font-weight: bold;height: 1em;">' +
+                    '<a href="#" id="nameLink">'+ contact.name + '</a></p>' +
+                    '<p style="text-align: center;">' + contact.address + ' * ' +
+                    contact.city + ', ' + contact.state + ' ' + contact.zip + ' * ' +
+                    '<a href="mailto:' + contact.email + '">' + contact.email + '</a></p>');
+            $('#nameLink').click(function(){toggleImage();return false;});
+            $(document.body).click(function(){toggleImage(); return false;});
+        });
+    </script>
+</div>
+
+<hr />
+
+<div id="summary">
+    <script type="text/javascript">
+        getDataFromEndpoint('summary',function(summary)
+        {
+            $('#summary').append('<p style="text-align: center;font-weight: bold;">OBJECTIVE: '+ summary.objective + '</p>' +
+                    '<p style="text-align: center;font-weight: bold;">QUALIFICATIONS SUMMARY</p>' + '<p>' + summary.summary + '</p>');
+        });
+    </script>
+</div>
+
+<hr />
+
+<div id="roles">
+    <p style="text-align: center;font-weight: bold;">RELEVANT EXPERIENCE</p>
+    <script type="text/javascript">
+        getDataFromEndpoint('roles',function(roles)
+        {
+            getDataFromEndpoint('companies',function(companies)
+            {
+                var htmlStream = '';
+
+                $.each(companies.companies, function(companyIndex, company)
+                {
+                    htmlStream += '<div style="font-weight: bold;"><span style="float: left;">'+company.company+'</span> <span style="float: right;">'
+                            +company.startYear + ' - ' + company.endYear + '</span></div><div style="clear: both;"></div><div>'+company.summary+'</div><br />';
+
+                    $.each(roles.roles, function(roleIndex, role)
+                    {
+                        if (role.company === company.company)
+                        {
+                            htmlStream += '<div style="text-align: left; font-weight: bold;">'+role.title+'</div><div style="text-align: left;">'+role.summary+'</div><br/>' +
+                                    '<div style="text-align: left; font-weight: bold;">Selected Accomlishments</div><ul>';
+
+                            $.each(role.bullets, function(bulletIndex, bullet)
+                            {
+                                htmlStream += '<li>'+bullet+'</li>';
+                            });
+                            htmlStream += '</ul>';
+                        }
+                    });
+                });
+                $('#roles').append(htmlStream);
+            });
+        });
+    </script>
+</div>
+
+<hr />
+
+<div>
+    <p style="text-align: center; font-weight: bold;">EDUCATION AND CERTIFICATIONS</p>
+    <div id="education" style="width: 100%; text-align: center;">
+        <script type="text/javascript">
+            getDataFromEndpoint('education',function(education)
+            {
+                var htmlStream = '';
+                $.each(education.education, function(index, item)
+                {
+                    if (typeof item !== 'object')
+                        htmlStream += item + '<br />';
+                });
+                $('#education').append(htmlStream);
+            });
+        </script>
+    </div>
+</div>
+
+<hr />
+
+<div>
+    <p id="skills" style="text-align: center; font-weight: bold;">TECHNICAL SKILLS</p>
+    <script type="text/javascript">
+        getDataFromEndpoint('skills',function(skills)
+        {
+            var htmlStream = '';
+            $.each(skills, function(skillIndex, skill)
+            {
+                if ('_id' !== skillIndex)
+                    htmlStream += '<div><span style="font-weight: bold;">'+skillIndex+': </span><span style="font-weight: normal;">'+skill+'</span></div>';
+            });
+            $('#skills').append(htmlStream);
+        });
+    </script>
+</div>
+</body>
+</html>

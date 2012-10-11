@@ -27,7 +27,7 @@ RUNNING
 REST IMPLEMENTATION
 -------------------
 
-This project implements a REST web service which serves my resume information via endpoints.  The web service was built using the simple and powerful [C2Serve framework.](http://www.c2serve.eu/c2s-htdocs/overview.html).
+This project implements a REST web service which serves my resume information via endpoints.  The web service was built using the simple and powerful [C2Serve framework.](http://www.c2serve.eu/c2s-htdocs/overview.html)
 I am not affiliated with C2Serve in any way, and discovered it via a link in [Wikipedia](http://en.wikipedia.org/wiki/List_of_web_service_frameworks) at the outset of this project.
 
 All endpoints deliver JSON data, with a CORS header.  The base URL is http://<server>:8080/resume/ and the endpoints are:
@@ -54,7 +54,7 @@ with a more creative solution, and showcase my knowledge better than my resume. 
 any modern C++ IDE's, so, I selected QT Creator as it was highly recommended online.  I have never used Creator before this project, but have become very familiar with it these last couple of weeks.  My OS is Fedora 17 x86_64.
 
 
-Acknowledgements
+ACKNOWLEDGEMENTS
 ----------------
 
 Thank you to the kind folks at C2Serve, MongoDB, QT, JQuery, QUnit, GitHub and Fedora for all their hard work on these valuable open-source products.

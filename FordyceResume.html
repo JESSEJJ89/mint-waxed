@@ -3,7 +3,6 @@
 <head>
     <title>Charles Fordyce Resume</title>
     <script src="http://code.jquery.com/jquery-1.8.1.min.js" type="text/javascript"></script>
-<!--    <script src="jquery-1.8.2.min.js" type="text/javascript"></script>-->
     <script type="text/javascript">
         var hostname = $('<a>').prop('href', window.location).prop('hostname');
         var baseUrl = 'http://'+hostname+':8080/resume/';
@@ -37,8 +36,8 @@
         {
             $('#contact').append('<p style="text-align: center;font-size: 2em;font-weight: bold;height: 1em;">' +
                     '<a href="#" id="nameLink">'+ contact.name + '</a></p>' +
-                    '<p style="text-align: center;">' + contact.address + ' * ' +
-                    contact.city + ', ' + contact.state + ' ' + contact.zip + ' * ' +
+                    '<p style="text-align: center;">' + contact.address + ' &#183; ' +
+                    contact.city + ', ' + contact.state + ' ' + contact.zip + ' &#183; ' +
                     '<a href="mailto:' + contact.email + '">' + contact.email + '</a></p>');
             $('#nameLink').click(function(){toggleImage();return false;});
             $(document.body).click(function(){toggleImage(); return false;});

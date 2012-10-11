@@ -5,10 +5,9 @@
 
 
 ResumeEducationGet::ResumeEducationGet()
-    : C2SRestMethodPrototypeGET<const char*>("education")
+    : C2SRestMethodPrototypeGET<std::string>(std::string("education"))
 {
-    installEntityStreamer(new ResumeJSONStreamer<const char*>());
-
+    installEntityStreamer(new ResumeJSONStreamer<std::string>());
     addQueryParameter("callback", &jsonpCallback, "");
 }
 
@@ -43,8 +42,9 @@ c2s::C2SHttpResponse * ResumeEducationGet::process()
         educationJson = jsonpCallback;
     }
 
-    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, educationJson.c_str());
+    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, educationJson);
     pResponse->header().Fields.set("Access-Control-Allow-Origin", "*");
+    pResponse->header().Fields.set("Content-Type", "application/json; charset=utf-8");
     return pResponse;
 }
 

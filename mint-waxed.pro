@@ -31,9 +31,9 @@ SOURCES += \
     server/ResumeSummaryGet.cpp \
     server/ResumeCompaniesGet.cpp \
     server/ResumeRolesGet.cpp \
-    server/ResumeServerMain.cpp \
     server/ResumeEducationGet.cpp \
-    server/ResumeSkillsGet.cpp
+    server/ResumeSkillsGet.cpp \
+    server/ResumeServerMain.cpp \
 
 HEADERS += \
     server/ResumeJSONStreamer.h \
@@ -43,6 +43,7 @@ HEADERS += \
     server/ResumeRolesGet.h \
     server/ResumeEducationGet.h \
     server/ResumeSkillsGet.h
+
 
 OTHER_FILES += \
     resume.js \

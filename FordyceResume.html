@@ -2,15 +2,15 @@
 <html>
 <head>
     <title>Charles Fordyce Resume</title>
-<!--    <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>-->
-    <script src="jquery-1.8.2.min.js" type="text/javascript"></script>-->
+    <script src="http://code.jquery.com/jquery-1.8.1.min.js" type="text/javascript"></script>
+<!--    <script src="jquery-1.8.2.min.js" type="text/javascript"></script>-->
     <script type="text/javascript">
         var hostname = $('<a>').prop('href', window.location).prop('hostname');
         var baseUrl = 'http://'+hostname+':8080/resume/';
 
         function getDataFromEndpoint(endpoint, callback)
         {
-            $.ajax({ url: baseUrl+endpoint,
+            $.ajax({url: baseUrl+endpoint,
                 dataType: 'jsonp json',
                 success: callback,
                 error: function(xhr,status,error) {callback({'isError':true,'error':error})}
@@ -20,13 +20,10 @@
         function toggleImage()
         {
             if ('none' === $(document.body).css('background-image'))
-            {
-// TODO add IE Alpha
-                $(document.body).css({'background-image':'url("chas-mint-waxed.png")', 'opacity':0});
-            }
+                $(document.body).css({'background-image':'url("chas-mint-waxed.png")', 'opacity':0,'filter':'alpha(opacity=0)'});
             else
             {
-                $(document.body).css({'background-image':'none','opacity':1});
+                $(document.body).css({'background-image':'none','opacity':1,'filter':'alpha(opacity=100)'});
                 $(document.body).click(function(){return false;});
             }
         }

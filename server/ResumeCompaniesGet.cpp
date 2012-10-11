@@ -6,10 +6,9 @@
 
 
 ResumeCompaniesGet::ResumeCompaniesGet()
-    : c2s::C2SRestMethodPrototypeGET<const char*>("companies")
+    : c2s::C2SRestMethodPrototypeGET<std::string>(std::string("companies"))
 {
-    installEntityStreamer(new ResumeJSONStreamer<const char*>());
-
+    installEntityStreamer(new ResumeJSONStreamer<std::string>());
     addQueryParameter("callback", &jsonpCallback, "");
 }
 
@@ -54,8 +53,9 @@ c2s::C2SHttpResponse * ResumeCompaniesGet::process()
         companiesJson = jsonpCallback;
     }
 
-    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, companiesJson.c_str());
+    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, companiesJson);
     pResponse->header().Fields.set("Access-Control-Allow-Origin", "*");
+    pResponse->header().Fields.set("Content-Type", "application/json; charset=utf-8");
     return pResponse;
 }
 

@@ -4,10 +4,9 @@
 #include <DateTimeLogger.h>
 
 ResumeSkillsGet::ResumeSkillsGet()
-: c2s::C2SRestMethodPrototypeGET<const char*>("skills")
+: c2s::C2SRestMethodPrototypeGET<std::string>(std::string("skills"))
 {
-    installEntityStreamer(new ResumeJSONStreamer<const char*>());
-
+    installEntityStreamer(new ResumeJSONStreamer<std::string>());
     addQueryParameter("callback", &jsonpCallback, "");
 }
 
@@ -42,8 +41,9 @@ c2s::C2SHttpResponse * ResumeSkillsGet::process()
         skillsJson = jsonpCallback;
     }
 
-    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, skillsJson.c_str());
+    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, skillsJson);
     pResponse->header().Fields.set("Access-Control-Allow-Origin", "*");
+    pResponse->header().Fields.set("Content-Type", "application/json; charset=utf-8");
     return pResponse;
 }
 

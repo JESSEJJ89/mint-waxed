@@ -6,12 +6,10 @@
 
 
 ResumeRolesGet::ResumeRolesGet()
-    : c2s::C2SRestMethodPrototypeGET<const char*>("roles")
+    : c2s::C2SRestMethodPrototypeGET<std::string>(std::string("roles"))
 {
-    installEntityStreamer(new ResumeJSONStreamer<const char*>());
-
+    installEntityStreamer(new ResumeJSONStreamer<std::string>());
     addQueryParameter("callback", &jsonpCallback, "");
-
 }
 
 c2s::C2SHttpResponse * ResumeRolesGet::process()
@@ -55,8 +53,9 @@ c2s::C2SHttpResponse * ResumeRolesGet::process()
         rolesJson = jsonpCallback;
     }
 
-    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, rolesJson.c_str());
+    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, rolesJson);
     pResponse->header().Fields.set("Access-Control-Allow-Origin", "*");
+    pResponse->header().Fields.set("Content-Type", "application/json; charset=utf-8");
     return pResponse;
 }
 

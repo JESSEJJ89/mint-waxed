@@ -4,7 +4,7 @@
 #include <C2SRestMethodPrototypeGET.h>
 #include <string>
 
-class ResumeRolesGet : public c2s::C2SRestMethodPrototypeGET<const char*>
+class ResumeRolesGet : public c2s::C2SRestMethodPrototypeGET<std::string>
 {
         std::string jsonpCallback;
 

@@ -8,22 +8,29 @@
 #include <string>
 
 template<class Type>
-class ResumeJSONStreamer : public c2s::C2SHttpEntityStreamerBase<Type>
+class ResumeJSONStreamer : public c2s::C2SHttpEntityStreamerBase<std::string>
 {
     public:
 
         explicit ResumeJSONStreamer()
-            : c2s::C2SHttpEntityStreamerBase<Type>(c2s::C2SHttpMediaType::application__json+"; charset=utf-8")
+            : c2s::C2SHttpEntityStreamerBase<std::string>(std::string("application/javascript"))
         {}
 
-        c2s::C2SHttpEntity * entity( const Type &data ) const
+        c2s::C2SHttpEntity * entity( const std::string &data ) const
         {
-            std::string sJSON = c2s::util::toString(data);
-            char *cdata = new char[ sJSON.size() ];
-            std::memcpy( cdata , sJSON.c_str() , sJSON.size() );
-            return new c2s::C2SHttpEntity( cdata , sJSON.size() , true );
+            return new c2s::C2SHttpEntity( data.c_str() , data.size() );
         }
 
+/*
+        c2s::C2SHttpEntity * entity( const Type &data ) const
+        {
+             return new c2s::C2SHttpEntity( data.c_str() , data.size() );
+//            std::string sJSON = c2s::util::toString(data);
+//            char *cdata = new char[ sJSON.size() ];
+//            std::memcpy( cdata , sJSON.c_str() , sJSON.size() );
+//            return new c2s::C2SHttpEntity( cdata , sJSON.size() , true );
+        }
+*/
         ResumeJSONStreamer(const ResumeJSONStreamer &) = delete;
         ResumeJSONStreamer &operator=(const ResumeJSONStreamer &) = delete;
 };

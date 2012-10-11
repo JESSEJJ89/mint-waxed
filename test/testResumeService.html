@@ -46,20 +46,21 @@ function getDataFromEndpoint(endpoint, onSuccess, onError)
     // closure containing properly scoped instance of timeoutId
     function callService()
     {
-        $.ajax({ url: baseUrl+endpoint,
-                dataType: 'jsonp json',
-                success: function(a,b,c)
-                          {
-                            clearTimeout(jsonpTimeoutId);
-                            onSuccess(endpoint,a,b,c);
-                          },
+
+        $.ajax({url:baseUrl+endpoint,
+                dataType: 'jsonp',
+                success:function(a,b,c)
+                {
+                    clearTimeout(jsonpTimeoutId);
+                    onSuccess(endpoint,a,b,c);
+                },
                 error: function(a,b,c)
-                        {
-                            clearTimeout(jsonpTimeoutId);
-                            onError(endpoint,a,b,c);
-                        }
-               });
-     };
+                {
+                    clearTimeout(jsonpTimeoutId);
+                    onError(endpoint,a,b,c);
+                }
+             });
+     }
 
     callService();
 }

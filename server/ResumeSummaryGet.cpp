@@ -5,10 +5,9 @@
 
 
 ResumeSummaryGet::ResumeSummaryGet()
-    : c2s::C2SRestMethodPrototypeGET<const char*>("summary")
+    : c2s::C2SRestMethodPrototypeGET<std::string>(std::string("summary"))
 {
-    installEntityStreamer(new ResumeJSONStreamer<const char*>());
-
+    installEntityStreamer(new ResumeJSONStreamer<std::string>());
     addQueryParameter("callback", &jsonpCallback, "");
 }
 
@@ -43,8 +42,9 @@ c2s::C2SHttpResponse * ResumeSummaryGet::process()
         summaryJson = jsonpCallback;
     }
 
-    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, summaryJson.c_str());
+    c2s::C2SHttpResponse * pResponse = buildResponse(c2s::OK, summaryJson);
     pResponse->header().Fields.set("Access-Control-Allow-Origin", "*");
+    pResponse->header().Fields.set("Content-Type", "application/json; charset=utf-8");
     return pResponse;
 }
 
